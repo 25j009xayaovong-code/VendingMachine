@@ -12,7 +12,7 @@ public class Exe {
         int id = 0;
         int money = this.fixMoney;
         CheckBalance cb = new CheckBalance(money);
-
+         String[] list = {};
         try {
             if (cb.getMoney() <= 0) {
                 System.out.println("Insert Money: ");
@@ -24,12 +24,23 @@ public class Exe {
                 id = sc.nextInt();
                 this.fixId = id;
             }
+        list = cb.getMenu(this.fixId);
 
-        } catch (InputMismatchException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Invalid input");
+            sc.nextLine();
+            execute();
         }
 
-        String[] list = cb.getMenu(this.fixId);
+
+
+
+        if (cb.checkBeverageQ(this.fixId)) {
+            this.fixId = 0;
+            System.out.println("Item Name: " + list[0] + "is out of stock");
+            this.fixMoney = cb.getMoney();
+            execute();
+        }
         System.out.println("Item Name: " + list[0] + ", Item price:" + list[1]);
         if (cb.checkMoney(Integer.parseInt(list[1].trim()))) {
             cb.deductMoney(Integer.parseInt(list[1].trim()));
@@ -43,6 +54,7 @@ public class Exe {
                 this.fixMoney = cb.getMoney();
                 execute();
             }
+            System.out.println("Thank You for always using CX vending Machine serice, your change:  " + cb.getMoney());
 
         } else {
             System.out.println("Money is not enough\nPLease insert more money");
