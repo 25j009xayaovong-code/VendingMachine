@@ -11,13 +11,18 @@ public class CheckBalance {
     public int getMoney() {
         return this.money;
     }
-
+    public void setMoney(int money){
+        this.money = money;
+    }
     public void insertMoreMoney(int money) {
         this.money += money;
     }
+    public void deductMoney(int money){
+        this.money -= money;
+    }
 
     public boolean checkMoney(int itemCost) {
-        if (this.money > itemCost)
+        if (this.money >= itemCost)
             return true;
         return false;
     }
