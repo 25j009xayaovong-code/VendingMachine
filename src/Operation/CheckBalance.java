@@ -1,6 +1,7 @@
 package Operation;
 
 import java.io.*;
+
 public class CheckBalance {
     private static int money;
 
@@ -11,13 +12,16 @@ public class CheckBalance {
     public int getMoney() {
         return this.money;
     }
-    public void setMoney(int money){
+
+    public void setMoney(int money) {
         this.money = money;
     }
+
     public void insertMoreMoney(int money) {
         this.money += money;
     }
-    public void deductMoney(int money){
+
+    public void deductMoney(int money) {
         this.money -= money;
     }
 
@@ -27,7 +31,7 @@ public class CheckBalance {
         return false;
     }
 
-    public static String[] getMenu(int itemId) {
+    public String[] getMenu(int itemId) {
         String[] returnValue = new String[2];
         try (
                 BufferedReader reader = new BufferedReader(new FileReader("src/Operation/Beverage.csv"))) {
@@ -46,4 +50,31 @@ public class CheckBalance {
         }
         return returnValue;
     }
+
+    public boolean checkBeverageQ(int itemId) {
+        String newData = "";
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/BeverageQuantity.csv"));) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] spliteField = line.split(",");
+
+                if (Integer.parseInt(spliteField[0]) == itemId) {
+                    if (spliteField[1].equals("0")) {
+                        return true;
+                    }
+                    int newQ = Integer.parseInt(spliteField[1]) - 1;
+                    spliteField[1] = Integer.toString(newQ);
+                }
+                newData += String.format("%s,%s\n", spliteField[0], spliteField[1]);
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/Operation/BeverageQuantity.csv"));
+            bw.write(newData);
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
