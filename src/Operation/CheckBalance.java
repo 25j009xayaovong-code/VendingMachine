@@ -34,7 +34,7 @@ public class CheckBalance {
     public String[] getMenu(int itemId) {
         String[] returnValue = new String[2];
         try (
-                BufferedReader reader = new BufferedReader(new FileReader("src/Operation/Beverage.csv"))) {
+                BufferedReader reader = new BufferedReader(new FileReader("src/Operation/CSV file/Beverage.csv"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] spliteField = line.split(",");
@@ -53,7 +53,7 @@ public class CheckBalance {
 
     public boolean checkBeverageQ(int itemId) {
         String newData = "";
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/BeverageQuantity.csv"));) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/BeverageQuantity.csv"));) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] spliteField = line.split(",");
@@ -67,7 +67,7 @@ public class CheckBalance {
                 }
                 newData += String.format("%s,%s\n", spliteField[0], spliteField[1]);
             }
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/Operation/BeverageQuantity.csv"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/Operation/CSV file/BeverageQuantity.csv"));
             bw.write(newData);
             bw.close();
 
