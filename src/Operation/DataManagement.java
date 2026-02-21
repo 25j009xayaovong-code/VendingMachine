@@ -10,14 +10,14 @@ public class DataManagement {
 
     }
 
-    public void addBeverage() {
+    public static void addBeverage() {
         String addText = "";
         int id = 0;
-        System.out.println("Enter new Beverage Name: ");
+        System.out.print("Enter new Beverage Name: ");
         String beverageName = sc.nextLine();
-        System.out.println("Enter new Beverage Price: ");
+        System.out.print("Enter new Beverage Price: ");
         String price = sc.nextLine();
-        System.out.println("Enter new Beverage Amount to add: ");
+        System.out.print("Enter new Beverage Amount to add: ");
         String amount = sc.nextLine();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/Beverage.csv"));
@@ -50,11 +50,11 @@ public class DataManagement {
 
     }
 
-    public void addBeverageQ() {
+    public static void addBeverageQ() {
         String addText = "";
-        System.out.println("Enter new Beverage Id: ");
+        System.out.print("Enter Beverage Id: ");
         String id = sc.nextLine();
-        System.out.println("Enter new Beverage Amount to add: ");
+        System.out.print("Enter Beverage Amount to add: ");
         int amount = sc.nextInt();
 
         try (
@@ -79,11 +79,11 @@ public class DataManagement {
 
     }
 
-    public void changeBeverageP() {
+    public static void changeBeverageP() {
         String addText = "";
-        System.out.println("Enter new Beverage id: ");
+        System.out.print("Enter new Beverage id: ");
         String id = sc.nextLine();
-        System.out.println("Enter new Beverage Price you want to change to: ");
+        System.out.print("Enter new Beverage Price you want to change to: ");
         String price = sc.nextLine();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/Beverage.csv"));) {
