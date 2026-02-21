@@ -7,7 +7,10 @@ public class Authorizer implements PasswordPrinciple {
     private static String name;
     private static String password;
     public static Scanner sc = new Scanner(System.in);
-    public Authorizer(){}
+
+    public Authorizer() {
+    }
+
     public Authorizer(String name, String password) {
         this.name = name;
         this.password = password;
@@ -34,27 +37,28 @@ public class Authorizer implements PasswordPrinciple {
                 rs = true;
                 continue;
             }
-        rs = false;
-        break;
+            rs = false;
+            break;
         }
-        // 
-        if(rs && password.length() >= passwordLength ){
+        //
+        if (rs && password.length() >= passwordLength) {
             return true;
         }
         return false;
     }
 
-    public void registerAuthorizer() {
-        if(this.name == null){
+    public void registerAuthorizer() throws Exception {
+        if (this.name == null) {
             System.out.print("Enter your full name: ");
-             String name = sc.nextLine();
-             this.name = name;
+            String name = sc.nextLine();
+            this.name = name;
         }
-       
+
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
         if (!checkPasswordValidation(password)) {
-            registerAuthorizer();
+            System.out.println("Invalid Password");
+            this.registerAuthorizer();
         }
         String backupText = "";
         int id = 0;
@@ -74,4 +78,48 @@ public class Authorizer implements PasswordPrinciple {
         }
     }
 
+    public boolean logIn() {
+
+        int timeLogin = 3;
+        while (timeLogin-- > 0) {
+
+            try {
+                System.out.print("Enter Your Full Name: ");
+                String name = sc.nextLine();
+                System.out.print("Enter Your Password: ");
+                String password = sc.nextLine();
+                try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/Authorizer.csv"))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        String[] lineSplit = line.split(",");
+                        if (name.equalsIgnoreCase(lineSplit[1].trim()) && password.equals(lineSplit[2].trim())) {
+                            return true;
+                        }
+                    }
+
+                } catch (IOException e) {
+                }
+
+            } catch (InputMismatchException e) {
+
+            }
+        }
+        waitinTime(5);
+        return false;
+    }
+
+    public void waitinTime(int s) {
+
+        while (s > 0) {
+            try {
+                System.out.print(s-- + " Seconds");
+                Thread.sleep(s * 1000);
+
+            } catch (Exception e) {
+            }
+            System.out.print("\r");
+
+        }
+
+    }
 }
