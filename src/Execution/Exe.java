@@ -1,12 +1,10 @@
 package Execution;
 
-import Operation.CheckBalance;
 import Operation.Authorizer;
+import Operation.CheckBalance;
 import Operation.DataManagement;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -96,18 +94,28 @@ public class Exe extends Authorizer {
         boolean lock = true;
         System.out.println("------Welcom to CX Beverage Drink System------");
         int timeCount = 0;
+        int failTime = 1;
         while (timeCount++ < 3) {
             if (lock) {
                 if (logIn()) {
                     lock = false;
                     timeCount = 0;
+                    failTime = 1;
                 }
+                if (timeCount == 3) {
+                    waitinTime(5 * failTime);
+                    failTime++;
+                    timeCount = 2;
+                }
+                System.out.println("invalid password or name");
+
                 continue;
             }
 
             System.out.println("""
                         1. Regist a new Administrator
                         2. Manage Beverage Data
+                        0. exit
                     """);
             int ans = sc.nextInt();
             switch (ans) {
@@ -136,10 +144,38 @@ public class Exe extends Authorizer {
                         }
                     }
                 }
+                case 0 -> {
+                    timeCount = 3;
+                    break;
+                }
                 default -> System.out.println("1 or 2 only");
 
             }
 
+        }
+    }
+
+    public void execute() throws Exception {
+        while (true) {
+            System.out.println("""
+                        1. Purchase Beverage
+                        2. Administrator
+                        0. Exit
+                    """);
+            int ans = sc.nextInt();
+            switch (ans) {
+                case 1 -> executeService();
+                case 2 -> executeAdmistration();
+                case 0 -> {
+                    break;
+                }
+                default -> {
+                    System.out.println("1 or 2 only");
+
+                }
+            }
+            if (ans == 0)
+                break;
         }
     }
 }
