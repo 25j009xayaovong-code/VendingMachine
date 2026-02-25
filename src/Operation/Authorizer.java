@@ -122,7 +122,7 @@ public class Authorizer implements PasswordPrinciple {
 
         while (s > 0) {
             try {
-                System.out.print("waiting Another: "+ s-- + " Seconds left");
+        System.out.print("waiting Another: "+ s-- + " Seconds left");
                 Thread.sleep( 1000);
 
             } catch (Exception e) {

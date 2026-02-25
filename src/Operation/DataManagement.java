@@ -44,6 +44,7 @@ public class DataManagement {
             addText += String.format("%d,%s\n", ++id, amount);
             bw2.write(addText);
             bw2.close();
+            System.out.println("Add : " + beverageName + " to CX Machine " + " price " + price + " amount " + amount + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +57,7 @@ public class DataManagement {
         String id = sc.nextLine();
         System.out.print("Enter Beverage Amount to add: ");
         int amount = sc.nextInt();
-
+        String name = "";
         try (
                 BufferedReader br2 = new BufferedReader(
                         new FileReader("src/Operation/CSV file/BeverageQuantity.csv"));) {
@@ -73,6 +74,7 @@ public class DataManagement {
             BufferedWriter bw2 = new BufferedWriter(new FileWriter("src/Operation/CSV file/BeverageQuantity.csv"));
             bw2.write(addText);
             bw2.close();
+            System.out.println("Add: " + amount + " to " + "Beverage Id" + id);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,5 +106,8 @@ public class DataManagement {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void checkOutofStockBevergae(){
+        
     }
 }
