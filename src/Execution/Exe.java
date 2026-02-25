@@ -158,6 +158,7 @@ public class Exe extends Authorizer {
     public void execute() throws Exception {
         while (true) {
             System.out.println("""
+                    ------Welcom to CX Beverage Drink------
                         1. Purchase Beverage
                         2. Administrator
                         0. Exit
