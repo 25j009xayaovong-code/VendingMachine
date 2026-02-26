@@ -1,13 +1,13 @@
 package Operation;
-
+import Execution.Exe;
 import java.io.*;
 import java.util.*;
 
-public class DataManagement {
+public class DataManagement extends Exe {
     public static Scanner sc = new Scanner(System.in);
 
     public DataManagement() {
-
+        super();
     }
 
     public static void addBeverage() {
@@ -44,6 +44,7 @@ public class DataManagement {
             addText += String.format("%d,%s\n", ++id, amount);
             bw2.write(addText);
             bw2.close();
+            System.out.println("Add : " + beverageName + " to CX Machine " + " price " + price + " amount " + amount + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,11 +53,15 @@ public class DataManagement {
 
     public static void addBeverageQ() {
         String addText = "";
+         System.out.printf("""
+                        <<Enter the Number to Choose your drink>>
+                        %s
+                           """, Exe.getMenuName());
         System.out.print("Enter Beverage Id: ");
         String id = sc.nextLine();
         System.out.print("Enter Beverage Amount to add: ");
         int amount = sc.nextInt();
-
+        String name = "";
         try (
                 BufferedReader br2 = new BufferedReader(
                         new FileReader("src/Operation/CSV file/BeverageQuantity.csv"));) {
@@ -73,6 +78,7 @@ public class DataManagement {
             BufferedWriter bw2 = new BufferedWriter(new FileWriter("src/Operation/CSV file/BeverageQuantity.csv"));
             bw2.write(addText);
             bw2.close();
+            System.out.println("Add: " + amount + " to " + "Beverage Id" + id);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,6 +87,9 @@ public class DataManagement {
 
     public static void changeBeverageP() {
         String addText = "";
+        System.out.println("""
+    --------<CX>------
+        """ + Exe.getMenuName());
         System.out.print("Enter new Beverage id: ");
         String id = sc.nextLine();
         System.out.print("Enter new Beverage Price you want to change to: ");
@@ -104,5 +113,8 @@ public class DataManagement {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void checkOutofStockBevergae(){
+        
     }
 }
