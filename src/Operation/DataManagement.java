@@ -1,13 +1,13 @@
 package Operation;
-
+import Execution.Exe;
 import java.io.*;
 import java.util.*;
 
-public class DataManagement {
+public class DataManagement extends Exe {
     public static Scanner sc = new Scanner(System.in);
 
     public DataManagement() {
-
+        super();
     }
 
     public static void addBeverage() {
@@ -53,6 +53,10 @@ public class DataManagement {
 
     public static void addBeverageQ() {
         String addText = "";
+         System.out.printf("""
+                        <<Enter the Number to Choose your drink>>
+                        %s
+                           """, Exe.getMenuName());
         System.out.print("Enter Beverage Id: ");
         String id = sc.nextLine();
         System.out.print("Enter Beverage Amount to add: ");
@@ -83,6 +87,9 @@ public class DataManagement {
 
     public static void changeBeverageP() {
         String addText = "";
+        System.out.println("""
+    --------<CX>------
+        """ + Exe.getMenuName());
         System.out.print("Enter new Beverage id: ");
         String id = sc.nextLine();
         System.out.print("Enter new Beverage Price you want to change to: ");

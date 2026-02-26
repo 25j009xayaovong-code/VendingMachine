@@ -30,7 +30,7 @@ public class Exe extends Authorizer {
                 System.out.printf("""
                         <<Enter the Number to Choose your drink>>
                         %s
-                           """, getMenuName());
+                           """, this.getMenuName());
                 System.out.print("Insert id: ");
                 id = sc.nextInt();
                 this.fixId = id;
@@ -75,7 +75,7 @@ public class Exe extends Authorizer {
         }
     }
 
-    public String getMenuName() {
+    public static String getMenuName() {
         String text = "";
         try (
                 BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/Beverage.csv"));) {
