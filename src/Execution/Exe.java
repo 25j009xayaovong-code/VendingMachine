@@ -23,16 +23,16 @@ public class Exe extends Authorizer {
         try {
             if (cb.getMoney() <= 0) {
                 System.out.print("Insert Money: ");
-                money = sc.nextInt();
+                money = Integer.parseInt(sc.nextLine());
                 cb.insertMoreMoney(money);
             }
             if (this.fixId == 0) {
                 System.out.printf("""
                         <<Enter the Number to Choose your drink>>
                         %s
-                           """, this.getMenuName());
+                           """, getMenuName());
                 System.out.print("Insert id: ");
-                id = sc.nextInt();
+                id = Integer.parseInt(sc.nextLine());
                 this.fixId = id;
             }
             list = cb.getMenu(this.fixId);
@@ -45,13 +45,14 @@ public class Exe extends Authorizer {
 
         if (cb.checkBeverageQ(this.fixId)) {
             this.fixId = 0;
-            System.out.println("Item Name: " + list[0] + "is out of stock");
+            System.out.println("Item Name: " + list[0] + " is out of stock");
             this.fixMoney = cb.getMoney();
             executeService();
         }
         System.out.println("Item Name: " + list[0] + ", Item price:" + list[1]);
         if (cb.checkMoney(Integer.parseInt(list[1].trim()))) {
             cb.deductMoney(Integer.parseInt(list[1].trim()));
+            cb.deductBeverageQ(this.fixId);  // Deduct quantity only after successful purchase
             this.fixId = 0;
             System.out.println("Purchase Completed");
             System.err.println("current Balance: " + cb.getMoney());
@@ -66,8 +67,8 @@ public class Exe extends Authorizer {
             System.out.println("Thank You for always using CX vending Machine serice, your change:  " + cb.getMoney());
 
         } else {
-            System.out.println("Money is not enough\nPLease insert more money");
-            money = sc.nextInt();
+            System.out.println("Money is not enough\nPlease insert more money");
+            money = Integer.parseInt(sc.nextLine());
             cb.insertMoreMoney(money);
             this.fixMoney = cb.getMoney();
             executeService();
@@ -96,68 +97,63 @@ public class Exe extends Authorizer {
         System.out.println("------Welcom to CX Beverage Drink System------");
         int timeCount = 0;
         int failTime = 1;
-        while (timeCount++ < 3) {
-            if (lock) {
-                if (logIn()) {
-                    lock = false;
-                    timeCount = 0;
-                    failTime = 1;
-                }
-                if (timeCount == 3) {
-                    waitinTime(5 * failTime);
-                    failTime++;
-                    timeCount = 2;
-                }
-                if (lock) {
-                    System.out.println("invalid password or name        ");
-                    continue;
-                }
-
+        
+        // First, handle login before entering the menu loop
+        while (lock && timeCount < 3) {
+            if (logIn()) {
+                lock = false;
+                break;
             }
-
-            System.out.println("""
+            timeCount++;
+            if (timeCount == 3) {
+                waitinTime(5 * failTime);
+                failTime++;
+                timeCount = 0;
+            }
+            if (lock) {
+                System.out.println("invalid password or name");
+                continue;
+            }
+        }
+        
+        // Only show admin menu if login was successful
+        if (!lock) {
+            while (true) {
+                System.out.println("""
                         1. Regist a new Administrator
                         2. Manage Beverage Data
                         0. exit
                     """);
-            String ans = sc.nextLine();
-            switch (ans) {
-                case "1" -> registerAuthorizer();
-                case "2" -> {
-
-                    while (true) {
-                        System.out.println("""
+                String ans = sc.nextLine();
+                switch (ans) {
+                    case "1" -> registerAuthorizer();
+                    case "2" -> {
+                        while (true) {
+                            System.out.println("""
                                     1. Add Beverage
                                     2. Add Beverage Quantity
-                                    3. Change Baverage price
+                                    3. Change Beverage price
                                     0. return
                                 """);
 
-                        ans = sc.nextLine();
-                        switch (ans) {
-                            case "1" -> DataManagement.addBeverage();
-                            case "2" -> DataManagement.addBeverageQ();
-                            case "3" -> DataManagement.changeBeverageP();
-                            case "0" -> {
-                                break;
+                            ans = sc.nextLine();
+                            switch (ans) {
+                                case "1" -> DataManagement.addBeverage();
+                                case "2" -> DataManagement.addBeverageQ();
+                                case "3" -> DataManagement.changeBeverageP();
+                                case "0" -> {
+                                    return;
+                                }
+                                default -> System.out.println("1, 2 and 3 only");
                             }
-
-                            default -> System.out.println("1 , 2 and 3 only");
                         }
-                        if (ans.equalsIgnoreCase("0")) {
-                            break;
-                        }
-                        break;
                     }
+                    case "0" -> {
+                        return;
+                    }
+                    default -> System.out.println("1 or 2 only");
                 }
-                case "0" -> {
-                    timeCount = 3;
-                    break;
-                }
-                default -> System.out.println("1 or 2 only");
-
             }
-
         }
     }
 
@@ -186,3 +182,4 @@ public class Exe extends Authorizer {
         }
     }
 }
+

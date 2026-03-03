@@ -50,7 +50,7 @@ public class Authorizer implements PasswordPrinciple {
 
             }
         }
-        if (rs1 && rs2 && rs3 & rs4 && password.length() >= passwordLength) {
+        if (rs1 && rs2 && rs3 && rs4 && password.length() >= passwordLength) {
             return true;
         }
         return false;
@@ -109,10 +109,11 @@ public class Authorizer implements PasswordPrinciple {
                 }
 
             } catch (IOException e) {
+                System.err.println("Error reading file: " + e.getMessage());
             }
 
         } catch (InputMismatchException e) {
-
+            System.err.println("Invalid input format: " + e.getMessage());
         }
 
         return false;
@@ -122,13 +123,12 @@ public class Authorizer implements PasswordPrinciple {
 
         while (s > 0) {
             try {
-        System.out.print("waiting Another: "+ s-- + " Seconds left");
-                Thread.sleep( 1000);
+                System.out.println("Waiting Another: " + s-- + " Seconds left");
+                Thread.sleep(1000);
 
             } catch (Exception e) {
+                System.err.println("Error during wait: " + e.getMessage());
             }
-            System.out.print("\r");
-
         }
 
     }

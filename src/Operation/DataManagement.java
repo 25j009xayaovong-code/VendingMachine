@@ -53,14 +53,14 @@ public class DataManagement extends Exe {
 
     public static void addBeverageQ() {
         String addText = "";
-         System.out.printf("""
+        System.out.printf("""
                         <<Enter the Number to Choose your drink>>
                         %s
                            """, Exe.getMenuName());
         System.out.print("Enter Beverage Id: ");
         String id = sc.nextLine();
         System.out.print("Enter Beverage Amount to add: ");
-        int amount = sc.nextInt();
+        int amount = Integer.parseInt(sc.nextLine());  // Use nextLine instead of nextInt
         String name = "";
         try (
                 BufferedReader br2 = new BufferedReader(
@@ -113,8 +113,5 @@ public class DataManagement extends Exe {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public void checkOutofStockBevergae(){
-        
     }
 }

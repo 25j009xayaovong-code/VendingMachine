@@ -52,17 +52,30 @@ public class CheckBalance {
     }
 
     public boolean checkBeverageQ(int itemId) {
-        String newData = "";
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/BeverageQuantity.csv"));) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/BeverageQuantity.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] spliteField = line.split(",");
-
-                if (Integer.parseInt(spliteField[0]) == itemId) {
-                    if (spliteField[1].equals("0")) {
+                if (Integer.parseInt(spliteField[0].trim()) == itemId) {
+                    if (spliteField[1].trim().equals("0")) {
                         return true;
                     }
-                    int newQ = Integer.parseInt(spliteField[1]) - 1;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void deductBeverageQ(int itemId) {
+        String newData = "";
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Operation/CSV file/BeverageQuantity.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] spliteField = line.split(",");
+                if (Integer.parseInt(spliteField[0].trim()) == itemId) {
+                    int newQ = Integer.parseInt(spliteField[1].trim()) - 1;
                     spliteField[1] = Integer.toString(newQ);
                 }
                 newData += String.format("%s,%s\n", spliteField[0], spliteField[1]);
@@ -70,11 +83,10 @@ public class CheckBalance {
             BufferedWriter bw = new BufferedWriter(new FileWriter("src/Operation/CSV file/BeverageQuantity.csv"));
             bw.write(newData);
             bw.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
 }
+
